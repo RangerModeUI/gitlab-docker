@@ -1,22 +1,22 @@
+version: '3.9'
+
 services:
   gitlab:
     image: gitlab/gitlab-ce:18.4.5-ce.0
     container_name: gitlab
     restart: always
-    hostname: '192.168.105.139'
+    hostname: 192.168.1.150
     environment:
       GITLAB_OMNIBUS_CONFIG: |
-        # Add any other gitlab.rb configuration here, each on its own line
-        external_url '192.168.105.139'
+        external_url 'http://192.168.1.150'
         gitlab_rails['gitlab_shell_ssh_port'] = 8822
-        gitlab_rails['initial_root_password'] = 'CHANGEME123'
         nginx['redirect_http_to_https'] = false
     ports:
-      - '80:80'
-      - '443:443'
-      - '8822:8822'
+      - "80:80"
+      - "443:443"
+      - "8822:22"
     volumes:
-      - '$GITLAB_HOME/config:/etc/gitlab'
-      - '$GITLAB_HOME/logs:/var/log/gitlab'
-      - '$GITLAB_HOME/data:/var/opt/gitlab'
+      - ./gitlab/config:/etc/gitlab
+      - ./gitlab/logs:/var/log/gitlab
+      - ./gitlab/data:/var/opt/gitlab
     shm_size: '256m'
